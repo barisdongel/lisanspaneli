@@ -17,17 +17,15 @@
       <li class="dropdown">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-box"></i><span>Ürünler</span></a>
         <ul class="dropdown-menu">
-          <li><a class="nav-link" href="urunler.php">Ballar</a></li>
-          <li><a class="nav-link" href="kategoriler.php">Kategoriler</a></li>
-          <li><a class="nav-link" href="alt-kategori.php">Alt Kategoriler</a></li>
+          <li><a class="nav-link" href="<?= site . '/process.php?process=productlist' ?>">Ürün Listesi</a></li>
+          <li><a class="nav-link" href="<?= site . '/process.php?process=newproduct' ?>">Yeni Ürün Ekle</a></li>
         </ul>
       </li>
       <li class="dropdown">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-key"></i><span>Lisanslar</span></a>
         <ul class="dropdown-menu">
-          <li><a class="nav-link" href="urunler.php">Ballar</a></li>
-          <li><a class="nav-link" href="kategoriler.php">Kategoriler</a></li>
-          <li><a class="nav-link" href="alt-kategori.php">Alt Kategoriler</a></li>
+          <li><a class="nav-link" href="<?= site . '/process.php?process=licenselist' ?>">Lisanslar</a></li>
+          <li><a class="nav-link" href="<?= site . '/process.php?process=newlicense' ?>">Lisans Listesi</a></li>
         </ul>
       </li>
       <li><a class="nav-link" href="kullanicilar.php"><i class="fas fa-user"></i><span>Kullanıcı Ayarları</span></a></li>
