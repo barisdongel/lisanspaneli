@@ -27,10 +27,12 @@ $ayarcek = $ayarsor->fetch(PDO::FETCH_ASSOC);
   <link rel="stylesheet" href="<?= site ?>/assets/dropzone/dist/basic.css">
   <!--Bootstrap-->
   <link rel="stylesheet" href="<?= site ?>/assets/css/bootstrap.min.css">
-
+  <!--favicon-->
   <link rel='shortcut icon' type='image/x-icon' href='<?= site ?>/assets/img/favicon.ico' />
   <!--sweetalert-->
   <link rel="stylesheet" href="<?= site ?>/assets/css/sweetalert2.min.css">
+  <!--datatable-->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.12.1/datatables.min.css" />
 
 </head>
 
@@ -47,12 +49,11 @@ $ayarcek = $ayarsor->fetch(PDO::FETCH_ASSOC);
                 <i class="fas fa-expand"></i>
               </a>
             </li>
-            <li><a class="nav-link nav-link-lg" href="<?= $ayarcek['ayar_siteurl'] ?>" target="_blank"><i class="fas fa-external-link-alt"></i> Siteye Git</a> </li>
           </ul>
         </div>
         <ul class="navbar-nav navbar-right">
           <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-              <img alt="image" src="<?=site?>/assets/img/users/avatar.png" class="user-img-radious-style">
+              <img alt="image" src="<?= site ?>/assets/img/users/avatar.png" class="user-img-radious-style">
               <span class="d-sm-none d-lg-inline-block"></span></a>
             <div class="dropdown-menu dropdown-menu-right">
               <div class="dropdown-title">Hoşgeldin Admin</div>

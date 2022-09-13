@@ -28,10 +28,16 @@
 <script src="<?= site ?>/assets/dropzone/dist/dropzone.js"></script>
 <!--CK Editor-->
 <script src="../ckeditor/ckeditor.js"></script>
+<!--datatable-->
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.12.1/datatables.min.js"></script>
 <script>
   CKEDITOR.replace('ckeditor1');
   $(document).ready(function() {
-    $('#datatable').DataTable();
+    $('#datatable').DataTable({
+      "language": {
+        "url": "https://cdn.datatables.net/plug-ins/1.12.1/i18n/tr.json"
+      }
+    });
   });
 </script>
 </body>

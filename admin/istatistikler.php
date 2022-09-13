@@ -1,10 +1,10 @@
 <?php
 //Sayıları Göstermek için sorgular
-$kullanicisayisi = $db->prepare("SELECT COUNT(*) FROM kullanici_tbl");
-$kullanicisayisi->execute();
-$kullanicisay = $kullanicisayisi->fetchColumn();
+$lisanssayisi = $db->prepare("SELECT COUNT(*) FROM lisans_tbl");
+$lisanssayisi->execute();
+$lisanssay = $lisanssayisi->fetchColumn();
 
-$urunsayisi = $db->prepare("SELECT COUNT(*) FROM urunler_tbl");
+$urunsayisi = $db->prepare("SELECT COUNT(*) FROM urun_tbl");
 $urunsayisi->execute();
 $urunsay = $urunsayisi->fetchColumn();
 ?>
@@ -18,7 +18,7 @@ $urunsay = $urunsayisi->fetchColumn();
         <div class="padding-20">
           <div class="text-right">
             <h3 class="font-light mb-0">
-              <i class="ti-arrow-up text-success"></i><?= $kullanicisay ?>
+              <i class="ti-arrow-up text-success"></i><?= $lisanssay ?>
             </h3>
             <span class="text-muted">Lisans</span>
           </div>
