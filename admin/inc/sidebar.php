@@ -28,9 +28,6 @@
           <li><a class="nav-link" href="<?= site . '/process.php?process=newlicense' ?>">Lisans Listesi</a></li>
         </ul>
       </li>
-      <li><a class="nav-link" href="kullanicilar.php"><i class="fas fa-user"></i><span>Kullanıcı Ayarları</span></a></li>
-
-      <li><a class="nav-link" href="ayarlar.php"><i class="fas fa-cog"></i><span>Genel Ayarlar</span></a></li>
 
       <li><a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i><span>Çıkış Yap</span></a></li>
     </ul>

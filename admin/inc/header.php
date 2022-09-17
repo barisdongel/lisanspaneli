@@ -29,8 +29,8 @@ $ayarcek = $ayarsor->fetch(PDO::FETCH_ASSOC);
   <link rel="stylesheet" href="<?= site ?>/assets/css/bootstrap.min.css">
   <!--favicon-->
   <link rel='shortcut icon' type='image/x-icon' href='<?= site ?>/assets/img/favicon.ico' />
-  <!--sweetalert-->
-  <link rel="stylesheet" href="<?= site ?>/assets/css/sweetalert2.min.css">
+	<!-- sweetalert CSS -->
+	<link rel="stylesheet" href="<?= site ?>/assets/css/sweetalert2.min.css">
   <!--datatable-->
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.12.1/datatables.min.css" />
 
