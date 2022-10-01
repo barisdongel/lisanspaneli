@@ -11,6 +11,8 @@ if (isset($_GET['process'])) {
 		$title = "Yeni Ürün Ekleme";
 	} else if (get('process') == "newlicense") {
 		$title = "Yeni Lisans Ekleme";
+	} else {
+		$title = "Lisans paneli";
 	}
 }
 ?>
@@ -27,6 +29,55 @@ if (isset($_GET['process'])) {
 			}
 
 			switch ($process) {
+
+				case 'deletelicense':
+					$pkey = get('key');
+
+					if (!$pkey) {
+						go(site);
+					}
+					$query = $db->prepare("SELECT lisans_key FROM lisans_tbl WHERE lisans_key=:k");
+					$query->execute([':k' => $pkey]);
+					if ($query->rowCount()) {
+						$up = $db->prepare("UPDATE lisans_tbl SET lisans_durum=:d WHERE lisans_key=:k");
+						$up->execute([':d' => 0, ':k' => $pkey]);
+						if ($up) {
+							$upp = $db->prepare("UPDATE lisans_tbl SET lisans_durum=:d WHERE lisans_urun=:u");
+							$upp->execute([':d' => 0, ':u' => $pkey]);
+							alert("success", "Lisans silinmiştir.");
+							go(site . '/process.php?process=licenselist', 2);
+						} else {
+							alert('danger', 'Hata!');
+						}
+					} else {
+						alert('danger', 'Hata!');
+					}
+					break;
+
+				case 'deleteproduct':
+					$pkey = get('key');
+
+					if (!$pkey) {
+						go(site);
+					}
+					$query = $db->prepare("SELECT urun_key FROM urun_tbl WHERE urun_key=:k");
+					$query->execute([':k' => $pkey]);
+					if ($query->rowCount()) {
+						$up = $db->prepare("UPDATE urun_tbl SET urun_durum=:d WHERE urun_key=:k");
+						$up->execute([':d' => 0, ':k' => $pkey]);
+						if ($up) {
+							$upp = $db->prepare("UPDATE lisans_tbl SET lisans_durum=:d WHERE lisans_urun=:u");
+							$upp->execute([':d' => 0, ':u' => $pkey]);
+							alert("success", "Ürün ve ürüne ait lisanslar silinmiştir.");
+							go(site . '/process.php?process=productlist', 2);
+						} else {
+							alert('danger', 'Hata!');
+						}
+					} else {
+						alert('danger', 'Hata!');
+					}
+					break;
+
 
 				case 'newlicense':
 			?>
@@ -126,6 +177,7 @@ if (isset($_GET['process'])) {
 										<th>Ürün Adı</th>
 										<th>Ürün Kodu</th>
 										<th>Tarih</th>
+										<th>Durum</th>
 										<th>İşlemler</th>
 									</tr>
 								</thead>
@@ -136,9 +188,11 @@ if (isset($_GET['process'])) {
 											<td><?= $row['urun_ad'] ?></td>
 											<td><?= $row['urun_key'] ?></td>
 											<td><?= date('d.m.y H:i', strtotime($row['urun_eklenme'])) ?></td>
+											<td><?= $row['urun_durum'] == 1 ? '<span class="alert alert-success p-2 text-center mt-3">Aktif</span>' : '<span class="alert alert-danger p-2 text-center mt-3">Pasif</span>' ?></td>
+
 											<td>
 												<a href="#" class="btn btn-outline-info fw-bold"><i class="fa fa-edit"></i> Düzenle</a>
-												<a href="#" class="btn btn-outline-primary fw-bold"><i class="fa fa-trash"></i> Sil</a>
+												<a onclick="return confirm('Silmek istediğinizden emin misiniz ?')" href="<?= site . "/process.php?process=deleteproduct&key=" . $row['urun_key'] ?>" class="btn btn-outline-primary fw-bold <?php echo $row['urun_durum'] == 1 ? '' : 'd-none' ?>"><i class="fa fa-trash"></i> Sil</a>
 											</td>
 										</tr>
 									<?php endforeach; ?>
@@ -197,6 +251,7 @@ if (isset($_GET['process'])) {
 										<th>Eklenme Tarihi</th>
 										<th>Bitiş Tarihi</th>
 										<th>Kalan Gün Sayısı</th>
+										<th>Durum</th>
 										<th>İşlemler</th>
 									</tr>
 								</thead>
@@ -214,9 +269,10 @@ if (isset($_GET['process'])) {
 											<td><?= date('d.m.y H:i', strtotime($row['lisans_eklenme'])) ?></td>
 											<td><?= date('d.m.y H:i:s', strtotime($row['lisans_bitis'])) ?></td>
 											<td><?= $interval->format('%a gün kaldı.') ?></td>
+											<td><?= $row['lisans_durum'] == 1 ? '<span class="alert alert-success p-2 text-center mt-3">Aktif</span>' : '<span class="alert alert-danger p-2 text-center mt-3">Pasif</span>' ?></td>
 											<td>
 												<a href="#" class="btn btn-outline-info fw-bold"><i class="fa fa-edit"></i> Düzenle</a>
-												<a href="#" class="btn btn-outline-primary fw-bold"><i class="fa fa-trash"></i> Sil</a>
+												<a onclick="return confirm('Silmek istediğinizden emin misiniz ?')" href="<?= site . '/process.php?process=deletelicense&key=' . $row['lisans_key'] ?>" class="btn btn-outline-primary fw-bold <?php echo $row['lisans_durum'] == 1 ? '' : 'd-none' ?>""><i class="fa fa-trash"></i> Sil</a>
 											</td>
 										</tr>
 									<?php endforeach; ?>

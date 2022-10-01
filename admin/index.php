@@ -36,6 +36,7 @@ $last15day->execute();
 									<tr>
 										<th>ID</th>
 										<th>Ürün Adı</th>
+										<th>Durum</th>
 										<th>Tarih</th>
 									</tr>
 								</thead>
@@ -44,6 +45,7 @@ $last15day->execute();
 										<tr>
 											<td><?= $row['urun_id'] ?></td>
 											<td><?= $row['urun_ad'] ?></td>
+											<td><?= $row['urun_durum'] == 1 ? '<span class="alert alert-success p-2 text-center mt-3">Aktif</span>' : '<span class="alert alert-danger p-2 text-center mt-3">Pasif</span>' ?></td>
 											<td><?= date('d.m.y H:i', strtotime($row['urun_eklenme'])) ?></td>
 										</tr>
 									<?php endforeach; ?>
@@ -70,6 +72,7 @@ $last15day->execute();
 									<tr>
 										<th>ID</th>
 										<th>Alan Adı</th>
+										<th>Durum</th>
 										<th>Eklenme Tarihi</th>
 										<th>Bitiş Tarihi</th>
 									</tr>
@@ -79,6 +82,7 @@ $last15day->execute();
 										<tr>
 											<td><?= $row['lisans_id'] ?></td>
 											<td><a href="<?= $row['lisans_domain'] ?>" target="_blank"><?= $row['lisans_domain'] ?></a></td>
+											<td><?= $row['lisans_durum'] == 1 ? '<span class="alert alert-success p-2 text-center mt-3">Aktif</span>' : '<span class="alert alert-danger p-2 text-center mt-3">Pasif</span>' ?></td>
 											<td><?= date('d.m.y H:i', strtotime($row['lisans_eklenme'])) ?></td>
 											<td><?= date('d.m.y H:i:s', strtotime($row['lisans_bitis'])) ?></td>
 										</tr>

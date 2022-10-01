@@ -24,8 +24,8 @@
       <li class="dropdown">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-key"></i><span>Lisanslar</span></a>
         <ul class="dropdown-menu">
-          <li><a class="nav-link" href="<?= site . '/process.php?process=licenselist' ?>">Lisanslar</a></li>
-          <li><a class="nav-link" href="<?= site . '/process.php?process=newlicense' ?>">Lisans Listesi</a></li>
+          <li><a class="nav-link" href="<?= site . '/process.php?process=licenselist' ?>">Lisans Listesi</a></li>
+          <li><a class="nav-link" href="<?= site . '/process.php?process=newlicense' ?>">Yeni Lisans Ekle</a></li>
         </ul>
       </li>
 

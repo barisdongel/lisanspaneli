@@ -31,21 +31,3 @@ function IP2()
 	}
 	return $ip;
 }
-
-/*
-if (isset($_SESSION['admin']) == @sha1(md5(IP2() . $_SESSION['id']))) {
-
-	$kullanicisor = $db->prepare("SELECT * FROM kullanici_tbl WHERE kullanici_id=:id");
-	$kullanicisor->execute(array('id' => $_SESSION['kullanici_id']));
-	$kullanicicek = $kullanicisor->fetch(PDO::FETCH_ASSOC);
-
-	if (!isset($_SESSION['kullanici_id'])) {
-		$qrow = $query->fetch(PDO::FETCH_OBJ);
-		$yid = $qrow->kullanici_id;
-		$ykadi = $qrow->kullanici_ad;
-		session_destroy();
-	}
-} else {
-	session_destroy();
-}
-*/
