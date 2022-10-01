@@ -107,15 +107,21 @@ $last15day->execute();
 										<th>Alan Adı</th>
 										<th>Eklenme Tarihi</th>
 										<th>Bitiş Tarihi</th>
+										<th>Kalan Gün</th>
 									</tr>
 								</thead>
 								<tbody>
-									<?php foreach ($last15day as $row) : ?>
+									<?php foreach ($last15day as $row) :
+										$edate = new DateTime($row['lisans_eklenme']);
+										$bdate = new DateTime($row['lisans_bitis']);
+										$interval = $edate->diff($bdate);
+									?>
 										<tr>
 											<td><?= $row['lisans_id'] ?></td>
 											<td><a href="<?= $row['lisans_domain'] ?>" target="_blank"><?= $row['lisans_domain'] ?></a></td>
 											<td><?= date('d.m.y H:i', strtotime($row['lisans_eklenme'])) ?></td>
 											<td><?= date('d.m.y H:i:s', strtotime($row['lisans_bitis'])) ?></td>
+											<td><?= $interval->format('%a gün kaldı.') ?></td>
 										</tr>
 									<?php endforeach; ?>
 								</tbody>

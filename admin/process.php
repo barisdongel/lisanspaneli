@@ -193,6 +193,7 @@ if (isset($_GET['process'])) {
 									<tr>
 										<th>ID</th>
 										<th>Alan Adı</th>
+										<th>Lisans Key</th>
 										<th>Eklenme Tarihi</th>
 										<th>Bitiş Tarihi</th>
 										<th>Kalan Gün Sayısı</th>
@@ -209,6 +210,7 @@ if (isset($_GET['process'])) {
 										<tr>
 											<td>#<?= $row['lisans_id'] ?></td>
 											<td><?= $row['lisans_domain'] ?></td>
+											<td><?= $row['lisans_key'] ?></td>
 											<td><?= date('d.m.y H:i', strtotime($row['lisans_eklenme'])) ?></td>
 											<td><?= date('d.m.y H:i:s', strtotime($row['lisans_bitis'])) ?></td>
 											<td><?= $interval->format('%a gün kaldı.') ?></td>
