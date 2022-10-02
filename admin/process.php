@@ -11,6 +11,8 @@ if (isset($_GET['process'])) {
 		$title = "Yeni Ürün Ekleme";
 	} else if (get('process') == "newlicense") {
 		$title = "Yeni Lisans Ekleme";
+	} else if (get('process') == "productedit") {
+		$title = "Ürün Düzenleme";
 	} else {
 		$title = "Lisans paneli";
 	}
@@ -29,6 +31,51 @@ if (isset($_GET['process'])) {
 			}
 
 			switch ($process) {
+
+				case 'productedit':
+					$pkey = get('key');
+
+					if (!$pkey) {
+						go(site);
+					}
+
+					$query = $db->prepare("SELECT * FROM urun_tbl WHERE urun_key=:k");
+					$query->execute([':k' => $pkey]);
+					if ($query->rowCount()) {
+						$row = $query->fetch(PDO::FETCH_OBJ);
+			?>
+						<form action="" method="POST" id="pupform" onsubmit="return false;">
+							<input type="hidden" name="pid" value="<?= $row->urun_id ?>">
+							<div class="card-body">
+								<div class="form-group">
+									<label><i class="fa fa-heading text-primary"></i> Ürün Adı</label>
+									<input type="text" name="pname" class="form-control" value="<?= $row->urun_ad ?>">
+								</div>
+								<div class="form-group">
+									<label><i class="fa fa-key text-primary"></i> Ürün Durum</label>
+									<select class="form-select" name="pstatus">
+										<option value="1" <?= $row->urun_durum == 1 ? 'selected' : '' ?>>Aktif</option>
+										<option value="0" <?= $row->urun_durum == 0 ? 'selected' : '' ?>>Pasif</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label><i class="fa fa-key text-primary"></i> Ürün Anahtarı</label>
+									<div class="alert alert-warning p-2 w-50">Ürün anahtarını değiştirmeniz durumunda, lisans kodunu ilgili siteye girmezseniz lisans çalışmayacaktır !</div>
+									<input type="text" name="pcode" id="pkey" class="form-control" value="<?= $row->urun_key ?>">
+									<a onclick="randomString('12','pkey'); return false;" class="btn btn-outline-primary my-3"><i class="fa fa-pencil-alt"></i> Anahtar üret</a>
+								</div>
+							</div>
+							<div class="col-md-12 text-left mb-3">
+								<button class="btn btn-info" onclick="pupbuton();" id="pbutton" type="submit"><i class="fa fa-plus"></i> Güncelle</button>
+								<a class="btn btn-warning" href="process.php?process=productlist"><i class="fa fa-long-arrow-alt-left"></i> Geri Dön</a>
+							</div>
+						</form>
+					<?php
+					} else {
+						go(site);
+					}
+
+					break;
 
 				case 'deletelicense':
 					$pkey = get('key');
@@ -80,7 +127,7 @@ if (isset($_GET['process'])) {
 
 
 				case 'newlicense':
-			?>
+					?>
 					<form action="" method="POST" id="lform" onsubmit="return false;">
 						<div class="card-body">
 							<div class="form-group">
@@ -191,7 +238,7 @@ if (isset($_GET['process'])) {
 											<td><?= $row['urun_durum'] == 1 ? '<span class="alert alert-success p-2 text-center mt-3">Aktif</span>' : '<span class="alert alert-danger p-2 text-center mt-3">Pasif</span>' ?></td>
 
 											<td>
-												<a href="#" class="btn btn-outline-info fw-bold"><i class="fa fa-edit"></i> Düzenle</a>
+												<a href="<?= site . "/process.php?process=productedit&key=" . $row['urun_key'] ?>" class="btn btn-outline-info fw-bold"><i class="fa fa-edit"></i> Düzenle</a>
 												<a onclick="return confirm('Silmek istediğinizden emin misiniz ?')" href="<?= site . "/process.php?process=deleteproduct&key=" . $row['urun_key'] ?>" class="btn btn-outline-primary fw-bold <?php echo $row['urun_durum'] == 1 ? '' : 'd-none' ?>"><i class="fa fa-trash"></i> Sil</a>
 											</td>
 										</tr>
@@ -272,7 +319,7 @@ if (isset($_GET['process'])) {
 											<td><?= $row['lisans_durum'] == 1 ? '<span class="alert alert-success p-2 text-center mt-3">Aktif</span>' : '<span class="alert alert-danger p-2 text-center mt-3">Pasif</span>' ?></td>
 											<td>
 												<a href="#" class="btn btn-outline-info fw-bold"><i class="fa fa-edit"></i> Düzenle</a>
-												<a onclick="return confirm('Silmek istediğinizden emin misiniz ?')" href="<?= site . '/process.php?process=deletelicense&key=' . $row['lisans_key'] ?>" class="btn btn-outline-primary fw-bold <?php echo $row['lisans_durum'] == 1 ? '' : 'd-none' ?>""><i class="fa fa-trash"></i> Sil</a>
+												<a onclick="return confirm('Silmek istediğinizden emin misiniz ?')" href="<?= site . '/process.php?process=deletelicense&key=' . $row['lisans_key'] ?>" class="btn btn-outline-primary fw-bold <?php echo $row['lisans_durum'] == 1 ? '' : 'd-none' ?>""><i class=" fa fa-trash"></i> Sil</a>
 											</td>
 										</tr>
 									<?php endforeach; ?>
@@ -299,95 +346,4 @@ if (isset($_GET['process'])) {
 		</div>
 	</div>
 </div>
-</div>
 <?php require_once 'inc/footer.php' ?>
-<script>
-	function randomString(sl, dv) {
-		var chars = "0123456789ABCDEFGHIJKLMNOPRQSTUVWXTZabcdefghhijklmnoprsqtuvwxyz";
-		var string_length = sl;
-		var randomstring = '';
-		for (var i = 0; i < string_length; i++) {
-			var rnum = Math.floor(Math.random() * chars.length);
-			randomstring += chars.substring(rnum, rnum + 1);
-		}
-		document.getElementById(dv).value = randomstring;
-	}
-
-	function pbuton() {
-		var data = $("#pform").serialize();
-		$.ajax({
-			type: "POST",
-			data: data,
-			url: "<?= site ?>/inc/newproductdata.php",
-			success: function(result) {
-				if ($.trim(result) == "empty") {
-					Swal.fire(
-						'Uyarı!',
-						'Boş alan bırakmayınız',
-						'warning'
-					)
-				} else if ($.trim(result) == "error") {
-					Swal.fire(
-						'Hata!',
-						'Bir sorun oluştu',
-						'danger'
-					)
-				} else if ($.trim(result) == "already") {
-					Swal.fire(
-						'Hata!',
-						'Ürün kodu zaten kayıtlı',
-						'warning'
-					)
-				} else if ($.trim(result) == "ok") {
-					Swal.fire(
-						'Başarılı',
-						'Ürün başarıyla eklendi',
-						'success'
-					);
-					setTimeout(function() {
-						window.location = "<?= site ?>/process.php?process=productlist"
-					}, 2000);
-				}
-			}
-		})
-	}
-
-	function lbuton() {
-		var data = $("#lform").serialize();
-		$.ajax({
-			type: "POST",
-			data: data,
-			url: "<?= site ?>/inc/newlicensedata.php",
-			success: function(result) {
-				if ($.trim(result) == "empty") {
-					Swal.fire(
-						'Uyarı!',
-						'Boş alan bırakmayınız',
-						'warning'
-					)
-				} else if ($.trim(result) == "error") {
-					Swal.fire(
-						'Hata!',
-						'Bir sorun oluştu',
-						'danger'
-					)
-				} else if ($.trim(result) == "already") {
-					Swal.fire(
-						'Hata!',
-						'Lisans kodu zaten kayıtlı',
-						'warning'
-					)
-				} else if ($.trim(result) == "ok") {
-					Swal.fire(
-						'Başarılı',
-						'Lisans başarıyla eklendi',
-						'success'
-					);
-					setTimeout(function() {
-						window.location = "<?= site ?>/process.php?process=licenselist"
-					}, 2000);
-				}
-			}
-		})
-	}
-</script>

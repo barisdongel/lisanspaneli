@@ -39,7 +39,19 @@
       }
     });
   });
+
+  function randomString(sl, dv) {
+    var chars = "0123456789ABCDEFGHIJKLMNOPRQSTUVWXTZabcdefghhijklmnoprsqtuvwxyz";
+    var string_length = sl;
+    var randomstring = '';
+    for (var i = 0; i < string_length; i++) {
+      var rnum = Math.floor(Math.random() * chars.length);
+      randomstring += chars.substring(rnum, rnum + 1);
+    }
+    document.getElementById(dv).value = randomstring;
+  }
 </script>
-</body>
+<!--ajax-->
+<?php require_once 'inc/ajax.php' ?>
 
 </html>
